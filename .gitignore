@@ -159,3 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 mt_mall/.idea/*
+
+# local_settings
+#mt_mall/local_settings.py
