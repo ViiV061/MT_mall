@@ -18,18 +18,12 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.urls import path, include
 
-#
-# def log(request):
-#     # import logging
-#     import logging
-#     # create logger
-#     logger = logging.getLogger('django')
-#     logger.info('user login')
-#     logger.error('redis connect error')
-#     logger.warning('mysql connect error')
-#     logger.debug('--------')
-#
-#     return HttpResponse('log')
+
+# register converter
+from utils.converters import UsernameConverter
+from django.urls import register_converter
+
+register_converter(UsernameConverter, 'username')
 
 
 urlpatterns = [
