@@ -46,7 +46,7 @@ class RegisterView(View):
         password = body_dict.get('password')
         password2 = body_dict.get('password2')
         mobile = body_dict.get('mobile')
-        email = body_dict.get('email')
+        #email = body_dict.get('email')
         allow = body_dict.get('allow')
 
         # check the validity of the data
@@ -60,14 +60,20 @@ class RegisterView(View):
             return JsonResponse({'code': 400, 'errmsg': 'password is not same'})
         if not re.match('^1[3-9]\d{9}$', mobile):
             return JsonResponse({'code': 400, 'errmsg': 'mobile is invalid'})
-        if not re.match('^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', email):
-            return JsonResponse({'code': 400, 'errmsg': 'email is invalid'})
+        # if not re.match('^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', email):
+        #     return JsonResponse({'code': 400, 'errmsg': 'email is invalid'})
         if allow != True:
             return JsonResponse({'code': 400, 'errmsg': 'allow is not True'})
         # check the validity of the sms code
         # create a user
         # user = User(username=username, password=password, mobile=mobile, email=email)
         # user.save()
-        User.objects.create_user(username=username, password=password, mobile=mobile, email=email)
+        user = User.objects.create_user(username=username, password=password, mobile=mobile)  # email=email
 
-        pass
+        # login status check, use SessionMiddleware
+        from django.contrib.auth import login
+        login(request, user)
+
+        # return the result
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
+
